@@ -9,6 +9,46 @@
         body {
             min-height: 100vh;
             background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        section {
+            position: relative;
+            height: auto;
+            width: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #d1d1d1c0;
+            padding: 20px; 
+            animation: fadeIn 1s ease;
+        }
+        .border-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(100%);
+            height: calc(100%);
+            border-radius: 15px;
+            border: 3px solid transparent;
+            animation: animateBorder 5s linear infinite;
+        }
+        @keyframes animateBorder {
+            0% {
+                border-color: #ff0000;
+            }
+            25% {
+                border-color: #00ff00;
+            }
+            50% {
+                border-color: #0000ff;
+            }
+            75% {
+                border-color: #ffff00;
+            }
+            100% {
+                border-color: #ff00ff;
+            }
         }
         #legenda, #glitter {
             text-align: center;
@@ -18,20 +58,11 @@
             margin: 20px auto;
             display: block;
             max-width: 100%;
-            height: 80%;
-            width: 80%;
+            height: 60%;
+            width: 60%;
         }
         h3{
             color: #232323;
-        }
-        section {
-            background-color: #d1d1d1c0;
-            border-radius: 15px; 
-            padding: 20px; 
-            max-width: 400px; 
-            margin: 20px; 
-            height: 70%;
-            animation: fadeIn 1s ease;
         }
         @media (max-width: 576px) {
             section {
@@ -49,10 +80,12 @@
         }
     </style>
 </head>
-<body class="d-flex flex-column justify-content-center align-items-center">
+<body>
     <section>
-        <div id="legenda"></div>
-        <div id="glitter"></div>
+        <div class="border-animation"></div>
+            <div id="legenda"></div>
+            <div id="glitter"></div>
+        
     </section>
 
     <script>
@@ -71,32 +104,36 @@
                         legenda.innerHTML = `<h3>No momento está bloqueado</h3>`;
                         glitter.innerHTML = `<img src="images/vermelha.png" alt="">`;
                         document.body.style.backgroundImage = "url('images/glittervermelho.jpg')";
+                        playSound();
                     } else if(currentStatus=="L"){
                         legenda.innerHTML = `<h3>No momento está livre</h3>`;
                         glitter.innerHTML = `<img src="images/verde.png" alt="">`;
                         document.body.style.backgroundImage = "url('images/verdefundo.avif')";
+                        playSound();
                     } else {
                         legenda.innerHTML = `<h3>No momento está no aguardo</h3>`;
                         glitter.innerHTML = `<img src="images/amarela.png" alt="">`;
                         document.body.style.backgroundImage = "url(images/fundo2.jpg)";
+                        playSound();
                     }
-                    playSound(); 
+                    showSection();
                 }
             });
         }
         updateStatus();
-        setInterval(updateStatus, 60000);
+        setInterval(updateStatus, 1000);
 
         function playSound() {
             const audio = new Audio('som/mario.mp3');
-                audio.onended = function() {
+            audio.onended = function() {
             };
             audio.play();
         }
 
-        document.body.addEventListener('onLoad', function() {
-            playSound();
-        });
+        function showSection() {
+            document.getElementById('legenda').classList.add('show');
+            document.getElementById('glitter').classList.add('show');
+        }
     </script>
 </body>
 </html>
